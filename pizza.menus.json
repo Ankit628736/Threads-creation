@@ -1,0 +1,207 @@
+[{
+  "_id": {
+    "$oid": "5eee651f739f8c674fd736ee"
+  },
+  "name": "Men Slim Fit Checkered Casual Shirt",
+  "image": "shirt1.png",
+  "price": "585",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee6671a27a66807cf2bea3"
+  },
+  "name": "Men Slim Fit Checkered Spread Collar Casual Shirt",
+  "image": "shirt2.png",
+  "price": "594",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee6692a27a66807cf2bea4"
+  },
+  "name": "Men Slim Fit Checkered Slim Collar Casual Shirt",
+  "image": "shirt3.png",
+  "price": "610",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee651f739f8c674fd736ef"
+  },
+  "name": "Men's Plaid Button-Up Shirt",
+  "image": "shirt4.png",
+  "price": "620",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee6546739f8c674fd736f0"
+  },
+  "name": "Men's Classic Oxford Shirt",
+  "image": "shirt5.png",
+  "price": "550",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee657d739f8c674fd736f1"
+  },
+  "name": "Men's Denim Button-Down Shirt",
+  "image": "shirt6.png",
+  "price": "630",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee65b2739f8c674fd736f2"
+  },
+  "name": "Men's Striped Linen Shirt",
+  "image": "shirt7.png",
+  "price": "570",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee65e6739f8c674fd736f3"
+  },
+  "name": "Men's Floral Print Short Sleeve Shirt",
+  "image": "shirt8.png",
+  "price": "640",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee661f739f8c674fd736f4"
+  },
+  "name": "Men's Chambray Work Shirt",
+  "image": "shirt9.png",
+  "price": "590",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee6650739f8c674fd736f5"
+  },
+  "name": "Men's Hawaiian Print Shirt",
+  "image": "shirt10.png",
+  "price": "670",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee6680739f8c674fd736f6"
+  },
+  "name": "Men's Linen Mandarin Collar Shirt",
+  "image": "shirt11.png",
+  "price": "610",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee66b5739f8c674fd736f7"
+  },
+  "name": "Men's Printed Poplin Shirt",
+  "image": "shirt12.png",
+  "price": "580",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee66e7739f8c674fd736f8"
+  },
+  "name": "Men's Slim Fit Cotton Shirt",
+  "image": "shirt13.png",
+  "price": "600",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee671c739f8c674fd736f9"
+  },
+  "name": "Men's Long Sleeve Polo Shirt",
+  "image": "shirt14.png",
+  "price": "560",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee674f739f8c674fd736fa"
+  },
+  "name": "Men's Corduroy Button-Up Shirt",
+  "image": "shirt15.png",
+  "price": "620",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee6784739f8c674fd736fb"
+  },
+  "name": "Men's Flannel Plaid Shirt",
+  "image": "shirt16.png",
+  "price": "580",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee67b9739f8c674fd736fc"
+  },
+  "name": "Men's Western Cowboy Shirt",
+  "image": "shirt17.png",
+  "price": "650",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee67ed739f8c674fd736fd"
+  },
+  "name": "Men's Silk Blend Dress Shirt",
+  "image": "shirt18.png",
+  "price": "700",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee6821739f8c674fd736fe"
+  },
+  "name": "Men's Pinstripe Slim Fit Shirt",
+  "image": "shirt19.png",
+  "price": "610",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee6854739f8c674fd736ff"
+  },
+  "name": "Men's Rugby Polo Shirt",
+  "image": "shirt20.png",
+  "price": "540",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee6889739f8c674fd73700"
+  },
+  "name": "Men's Embroidered Denim Shirt",
+  "image": "shirt21.png",
+  "price": "660",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee68bd739f8c674fd73701"
+  },
+  "name": "Men's V-Neck Linen Shirt",
+  "image": "shirt22.png",
+  "price": "590",
+  "size": "M-42"
+},
+{
+  "_id": {
+    "$oid": "5eee68ef739f8c674fd73702"
+  },
+  "name": "Men's Yarn-Dyed Check Shirt",
+  "image": "shirt23.png",
+  "price": "580",
+  "size": "M-42"
+}]
