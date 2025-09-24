@@ -6,7 +6,7 @@
   "description": "Threaded Creations - E-commerce platform for shirts and apparel",
   "author": "Ankit Singh",
   "engines": {
-    "node": ">=16.0.0",
+    "node": "18.x",
     "npm": ">=8.0.0"
   },
   "scripts": {
