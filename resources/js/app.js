@@ -102,6 +102,14 @@ const paymentType = document.querySelector('#payment-type')
 //Ajax call
 document.addEventListener('DOMContentLoaded', function () {
     const paymentForm = document.querySelector('#payment-form');
+    
+    if (!paymentForm) {
+        console.log('Payment form not found on this page.');
+        return;
+    }
+
+    console.log('Payment form found, setting up event listener.');
+    
     if (paymentForm) {
         paymentForm.addEventListener('submit', (e) => {
             e.preventDefault();

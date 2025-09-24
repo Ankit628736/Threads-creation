@@ -32,21 +32,39 @@ function orderContollers() {
 
         },
         async index(req, res) {
+            // If user is admin, redirect to admin orders
+            if (req.user.role === 'admin') {
+                req.flash('error', 'As an admin, please use the Admin Panel to view all orders.');
+                return res.redirect('/admin/orders');
+            }
+            
             const orders = await Order.find({ customerId: req.user._id },
                 null,
                 { sort: { 'createdAt': -1 } })
             res.header('Cache-Control', 'no-store')
             res.render('customers/orders', { orders: orders, moment: moment })
             console.log(orders)
-            // res.render('customer/orders', { orders: orders, moment: moment })
         },
         async show(req, res) {
+            // If user is admin, redirect to admin orders
+            if (req.user.role === 'admin') {
+                req.flash('error', 'As an admin, please use the Admin Panel to manage orders.');
+                return res.redirect('/admin/orders');
+            }
+            
             const order = await Order.findById(req.params.id)
+            if (!order) {
+                req.flash('error', 'Order not found.');
+                return res.redirect('/customer/orders');
+            }
+            
             // Authorize user
             if (req.user._id.toString() === order.customerId.toString()) {
                 return res.render('customers/singleOrder', { order })
             }
-            return res.redirect('/')
+            
+            req.flash('error', 'You are not authorized to view this order.');
+            return res.redirect('/customer/orders');
         }
     }
 }

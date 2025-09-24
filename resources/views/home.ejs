@@ -74,31 +74,51 @@
 
 
     <section id="shirtsSection" class="menu container mx-auto py-8 ">
-        <h1 class="text-xl font-bold mb-8 text-4xl text-center"> SHIRTS</h1>
-        <div class="grid grid-cols-1 pl-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 col-gap-12 row-gap-16 gap-y-16">
-            <% pizzas.forEach(function(pizza, index){ %>
-                <div class="w-full md:w-64 border-2 border-gray-300 rounded-lg shadow-md p-4"
-                     style="transition-delay: 1s; opacity: 0; transform: translateY(30px);">
-                    <img class="h-40 mb-4 mx-auto" src="/img/<%= pizza.image%>" alt="">
-                    <div class="text-center">
-                        <h2 class="mb-4 text-lg">
-                            <%=pizza.name%>
-                        </h2>
-                        <span class="size py-1 px-4 rounded-full uppercase text-xs">
-                            <%=pizza.size%>
-                        </span>
-                        <div class="flex items-center justify-around mt-6">
-                            <span class="font-bold text-lg">₹<%=pizza.price%></span>
-                            <button data-pizza="<%= JSON.stringify(pizza)%>"
-                                    class="add-to-cart py-1 px-6 rounded-full flex items-center font-bold">
-                                <span>+</span>
-                                <span class="ml-4">Add</span>
-                            </button>
+        <h1 class="text-xl font-bold mb-8 text-4xl text-center">SHIRTS</h1>
+        <% if(typeof shirtsCount !== 'undefined' && shirtsCount > 0) { %>
+            <p class="text-center text-gray-600 mb-6">We have <strong><%= shirtsCount %></strong> shirts available for you!</p>
+        <% } %>
+        
+        <% if(typeof error !== 'undefined') { %>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mx-auto mb-6 max-w-md text-center">
+                <%= error %>
+            </div>
+        <% } %>
+        
+        <% if(pizzas && pizzas.length > 0) { %>
+            <div class="grid grid-cols-1 pl-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 col-gap-12 row-gap-16 gap-y-16">
+                <% pizzas.forEach(function(pizza, index){ %>
+                    <div class="w-full md:w-64 border-2 border-gray-300 rounded-lg shadow-md p-4 shirt-item"
+                         style="opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease;">
+                        <img class="h-40 mb-4 mx-auto object-cover rounded" src="/img/<%= pizza.image%>" alt="<%= pizza.name%>">
+                        <div class="text-center">
+                            <h2 class="mb-4 text-lg font-semibold">
+                                <%=pizza.name%>
+                            </h2>
+                            <span class="size py-1 px-4 rounded-full uppercase text-xs bg-gray-200">
+                                Size: <%=pizza.size%>
+                            </span>
+                            <div class="flex items-center justify-around mt-6">
+                                <span class="font-bold text-lg text-green-600">₹<%=pizza.price%></span>
+                                <button data-pizza="<%= JSON.stringify(pizza)%>"
+                                        class="add-to-cart py-2 px-4 rounded-full flex items-center font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+                                    <span>+</span>
+                                    <span class="ml-2">Add to Cart</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <div class="text-center py-16">
+                <div class="bg-gray-100 border border-gray-300 text-gray-600 px-6 py-8 rounded-lg mx-auto max-w-md">
+                    <i class="fas fa-tshirt text-4xl mb-4 text-gray-400"></i>
+                    <h3 class="text-lg font-semibold mb-2">No Shirts Available</h3>
+                    <p>We're updating our collection. Please check back soon!</p>
                 </div>
-            <% }) %>
-        </div>
+            </div>
+        <% } %>
     </section>
 
     
@@ -107,18 +127,25 @@
             document.getElementById('shirtsSection').scrollIntoView({ behavior: 'smooth' });
         });
 
+        // Animate shirts on scroll
         window.addEventListener('scroll', function() {
-            var items = document.querySelectorAll('.w-full');
+            var items = document.querySelectorAll('.shirt-item');
             var scrollPosition = window.scrollY;
 
-            items.forEach(function(item) {
+            items.forEach(function(item, index) {
                 var itemPosition = item.getBoundingClientRect().top + window.scrollY;
-                if (scrollPosition > itemPosition - window.innerHeight / 1.5) {
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateY(0)';
-                    item.style.transition = 'opacity 0.5s, transform 0.5s';
+                if (scrollPosition > itemPosition - window.innerHeight / 1.2) {
+                    setTimeout(function() {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, index * 100); // Stagger animation
                 }
             });
+        });
+
+        // Trigger scroll event on page load to animate visible items
+        window.addEventListener('load', function() {
+            window.dispatchEvent(new Event('scroll'));
         });
     </script>
 </body>

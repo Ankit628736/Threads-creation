@@ -20,22 +20,34 @@ function authController() {
                 req.flash('error', 'All fields are required')
                 return res.redirect('/login')
             }
+            
+            console.log('🔐 Login attempt for email:', email);
+            
             passport.authenticate('local', (err, user, info) => {
                 if(err) {
-                    req.flash('error', info.message )
+                    console.error('❌ Authentication error:', err);
+                    req.flash('error', 'Authentication failed. Please try again.')
                     return next(err)
                 }
                 if(!user) {
-                    req.flash('error', info.message )
+                    console.log('❌ Authentication failed:', info ? info.message : 'Unknown error');
+                    req.flash('error', info ? info.message : 'Login failed')
                     return res.redirect('/login')
                 }
+                
+                console.log('✅ User authenticated successfully:', user.email, 'Role:', user.role);
+                
                 req.logIn(user, (err) => {
                     if(err) {
-                        req.flash('error', info.message ) 
+                        console.error('❌ Login session error:', err);
+                        req.flash('error', 'Failed to create session. Please try again.') 
                         return next(err)
                     }
 
-                    return res.redirect(_getRedirectUrl(req))
+                    const redirectUrl = _getRedirectUrl(req);
+                    console.log('✅ User logged in successfully! Redirecting to:', redirectUrl);
+                    req.flash('success', `Welcome back, ${user.name}!`);
+                    return res.redirect(redirectUrl)
                    
                 })
             })(req, res, next)
@@ -51,6 +63,8 @@ function authController() {
 
         async postRegister(req, res) {
             const { name, email, password } = req.body
+            
+            // Validate input
             if (!name || !email || !password) {
                 req.flash('error', 'All fields are required')
                 req.flash('name', name)
@@ -58,10 +72,23 @@ function authController() {
                 return res.redirect('/register')
             }
 
+            // Additional validation
+            if (password.length < 6) {
+                req.flash('error', 'Password must be at least 6 characters long')
+                req.flash('name', name)
+                req.flash('email', email)
+                return res.redirect('/register')
+            }
+
             try {
-                // Check if email already exists
-                const emailExists = await User.exists({ email: email });
+                const normalizedEmail = email.toLowerCase().trim();
+                
+                console.log('📝 Registration attempt for:', normalizedEmail);
+
+                // Check if email already exists (case-insensitive)
+                const emailExists = await User.exists({ email: normalizedEmail });
                 if (emailExists) {
+                    console.log('❌ Email already exists:', normalizedEmail);
                     req.flash('error', 'Email already taken');
                     req.flash('name', name);
                     req.flash('email', email);
@@ -73,26 +100,48 @@ function authController() {
 
                 // Create a user 
                 const user = new User({
-                    name,
-                    email,
+                    name: name.trim(),
+                    email: normalizedEmail,
                     password: hashedPassword
                 });
 
-                await user.save();
+                const savedUser = await user.save();
+                console.log('✅ User created successfully:', {
+                    id: savedUser._id,
+                    name: savedUser.name,
+                    email: savedUser.email,
+                    role: savedUser.role
+                });
 
-                // Login
-                return res.redirect('/');
+                // Automatically log in the user after registration
+                req.logIn(savedUser, (err) => {
+                    if (err) {
+                        console.error('❌ Error auto-logging in user:', err);
+                        req.flash('error', 'Account created successfully! Please login with your credentials.');
+                        return res.redirect('/login');
+                    }
+                    
+                    console.log('✅ Auto-login successful for new user:', savedUser.email);
+                    req.flash('success', `Welcome to Threaded Creations, ${savedUser.name}!`);
+                    return res.redirect(_getRedirectUrl(req));
+                });
+                
             } catch (error) {
-                console.error(error);
-                req.flash('error', 'Something went wrong');
+                console.error('❌ Registration error:', error);
+                
+                // Handle specific MongoDB errors
+                if (error.code === 11000) {
+                    req.flash('error', 'Email already exists');
+                } else if (error.name === 'ValidationError') {
+                    req.flash('error', 'Please check your input and try again');
+                } else {
+                    req.flash('error', 'Registration failed. Please try again.');
+                }
+                
+                req.flash('name', name);
+                req.flash('email', email);
                 return res.redirect('/register');
             }
-
-            console.log(req.body)
-
-
-
-
         },
         logout(req, res) {
             req.logout(function(err) {

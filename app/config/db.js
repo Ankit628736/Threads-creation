@@ -2,19 +2,38 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 
 function connectDB() {
-    // Step 2: Database connection
-    mongoose.connect(process.env.MONGO_CONNECTION_URL);
+    // Database connection with proper configuration
+    mongoose.connect(process.env.MONGO_CONNECTION_URL, {
+        // Remove deprecated options that are no longer needed in modern versions
+    });
     
     const connection = mongoose.connection;
 
     connection.on('error', err => {
-        // Step 3: Handle database connection error
+        // Handle database connection error
         console.error('Database connection error:', err);
     });
 
     connection.once('open', () => {
-        // Step 1: MongoDB connected successfully
+        // MongoDB connected successfully
         console.log('Database connected 🥳🥳🥳🥳');
+    });
+
+    // Handle connection events
+    connection.on('disconnected', () => {
+        console.log('MongoDB disconnected');
+    });
+
+    // Handle application termination
+    process.on('SIGINT', async () => {
+        try {
+            await connection.close();
+            console.log('MongoDB connection closed through app termination');
+            process.exit(0);
+        } catch (err) {
+            console.error('Error closing MongoDB connection:', err);
+            process.exit(1);
+        }
     });
 }
 

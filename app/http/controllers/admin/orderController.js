@@ -1,21 +1,32 @@
 const Order = require('../../../models/order')
-const order = require('../../../models/order')
+const moment = require('moment')
+
 function orderController() {
     return {
         index(req, res) {
-            order.find({ status: { $ne: 'completed' } }, null, { sort: { 'createdAt': -1 } })
+            // Get all orders (not just non-completed ones) for better admin visibility
+            Order.find({}, null, { sort: { 'createdAt': -1 } })
                 .populate('customerId', '-password')
                 .then(orders => {
+                    console.log(`Admin viewing ${orders.length} orders`);
+                    
                     if (req.xhr) {
                         return res.json(orders)
                     } else {
-                        return res.render('admin/orders')
+                        // Pass orders data to the view
+                        return res.render('admin/orders', { 
+                            orders: orders,
+                            moment: moment 
+                        })
                     }
                 })
                 .catch(err => {
-                    // Handle error
-                    console.error(err);
-                    res.status(500).send('Internal Server Error');
+                    console.error('Error fetching orders:', err);
+                    res.status(500).render('admin/orders', { 
+                        orders: [],
+                        moment: moment,
+                        error: 'Failed to load orders'
+                    });
                 });
         }
     }

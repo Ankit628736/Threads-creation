@@ -6,8 +6,12 @@ const menuSchema = new Schema({
     name: { type: String, required: true },
     image: { type: String, required: true },
     price: { type: Number, required: true },
-    size: { type: String, required: true }
+    size: { type: String, required: true },
+    category: { type: String, default: 'shirt' },
+    description: { type: String },
+    inStock: { type: Boolean, default: true }
+}, { 
+    timestamps: true 
 })
-
 
 module.exports = mongoose.model('Menu', menuSchema)

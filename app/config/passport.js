@@ -4,21 +4,34 @@ const bcrypt = require('bcrypt')
 
 function init(passport) {
     passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
-        // Login
-        // check if email exists
-        const user = await User.findOne({ email: email })
-        if (!user) {
-            return done(null, false, { message: 'No user with this email' })
-        }
-
-        bcrypt.compare(password, user.password).then(match => {
-            if (match) {
-                return done(null, user, { message: 'Logged in succesfully' })
+        try {
+            console.log('🔍 Passport: Looking for user with email:', email);
+            
+            // Check if email exists (case-insensitive)
+            const user = await User.findOne({ email: email.toLowerCase().trim() });
+            
+            if (!user) {
+                console.log('❌ Passport: No user found with email:', email);
+                return done(null, false, { message: 'No user found with this email address' });
             }
-            return done(null, false, { message: 'Wrong username or password' })
-        }).catch(err => {
-            return done(null, false, { message: 'Something went wrong' })
-        })
+
+            console.log('✅ Passport: User found:', user.email, 'Name:', user.name);
+
+            // Compare password
+            const isMatch = await bcrypt.compare(password, user.password);
+            
+            if (isMatch) {
+                console.log('✅ Passport: Password match successful for:', user.email);
+                return done(null, user, { message: 'Login successful' });
+            } else {
+                console.log('❌ Passport: Password mismatch for:', user.email);
+                return done(null, false, { message: 'Incorrect password' });
+            }
+            
+        } catch (err) {
+            console.error('❌ Passport: Error during authentication:', err);
+            return done(err, false, { message: 'Authentication failed due to server error' });
+        }
     }))
 
     passport.serializeUser((user, done) => {

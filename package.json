@@ -1,13 +1,19 @@
 {
-  "name": "project",
+  "name": "threaded-creations",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
-  "description": "project",
-  "author": "Nikhil Kumar",
+  "description": "Threaded Creations - E-commerce platform for shirts and apparel",
+  "author": "Ankit Singh",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
+    "start": "node server.js",
     "serve": "node server.js",
     "dev": "nodemon server.js",
+    "build": "npm run production",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress  --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "npm run development -- --watch",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js"
