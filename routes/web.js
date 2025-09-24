@@ -14,6 +14,43 @@ const admin = require('../app/http/middlewares/admin')
 
 function initRoute(app) {
 
+    // Static file routes for Vercel compatibility
+    const path = require('path');
+    const fs = require('fs');
+    
+    app.get('/img/:filename', (req, res) => {
+        const filename = req.params.filename;
+        const filePath = path.join(__dirname, '..', 'public', 'img', filename);
+        
+        if (fs.existsSync(filePath)) {
+            res.sendFile(filePath);
+        } else {
+            res.status(404).send('Image not found');
+        }
+    });
+    
+    app.get('/css/:filename', (req, res) => {
+        const filename = req.params.filename;
+        const filePath = path.join(__dirname, '..', 'public', 'css', filename);
+        
+        if (fs.existsSync(filePath)) {
+            res.sendFile(filePath);
+        } else {
+            res.status(404).send('CSS not found');
+        }
+    });
+    
+    app.get('/js/:filename', (req, res) => {
+        const filename = req.params.filename;
+        const filePath = path.join(__dirname, '..', 'public', 'js', filename);
+        
+        if (fs.existsSync(filePath)) {
+            res.sendFile(filePath);
+        } else {
+            res.status(404).send('JS not found');
+        }
+    });
+
     app.get('/', homeController().index)
     
     // Test route for shirts

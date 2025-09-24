@@ -60,9 +60,14 @@ app.use(passport.session())
 app.use(flash())
 
 
-//Assets
-app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.static('public'))
+//Assets - Multiple static configurations for production compatibility
+app.use(express.static(path.join(__dirname, 'public'), {
+    maxAge: '1d',
+    etag: false
+}))
+app.use('/css', express.static(path.join(__dirname, 'public', 'css')))
+app.use('/js', express.static(path.join(__dirname, 'public', 'js')))
+app.use('/img', express.static(path.join(__dirname, 'public', 'img')))
 app.use(express.urlencoded({ extended: false }))
 
 app.use(express.json())
